@@ -3,10 +3,13 @@ from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import UserMixin
 from datetime import datetime
 
+# get user from database 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
 
+# database models
+# user class
 class User(db.Model,UserMixin):
     
     __tablename__ = 'users'
@@ -29,6 +32,7 @@ class User(db.Model,UserMixin):
     def __repr__(self):
         return f"Username{self.username}"
 
+# blog post class
 class BlogPost(db.Model):
 
     users = db.relationship(User)

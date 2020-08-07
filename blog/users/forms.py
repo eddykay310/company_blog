@@ -7,6 +7,7 @@ from flask_wtf.file import FileField,FileAllowed
 from flask_login import current_user
 from blog.models import User
 
+# Different form classes
 class LoginForm(FlaskForm):
     email = StringField('Email',validators=[DataRequired(),Email()])
     password = PasswordField('Password',validators=[DataRequired()])
