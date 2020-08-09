@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import UserMixin
 from datetime import datetime
 
-# get user from database 
+# get user from database
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
@@ -11,7 +11,7 @@ def load_user(user_id):
 # database models
 # user class
 class User(db.Model,UserMixin):
-    
+
     __tablename__ = 'users'
 
     id = db.Column(db.Integer,primary_key=True)
@@ -25,10 +25,10 @@ class User(db.Model,UserMixin):
         self.email = email
         self.username = username
         self.password_hash = generate_password_hash(password)
-    
+
     def check_password(self,password):
         return check_password_hash(self.password_hash,password)
-    
+
     def __repr__(self):
         return f"Username{self.username}"
 
@@ -36,7 +36,7 @@ class User(db.Model,UserMixin):
 class BlogPost(db.Model):
 
     users = db.relationship(User)
-    
+
     id = db.Column(db.Integer,primary_key=True)
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'),nullable=False)
     date_time = db.Column(db.DateTime,nullable=False,default=datetime.utcnow)
@@ -49,6 +49,4 @@ class BlogPost(db.Model):
         self.user_id = user_id
 
     def __repr__(self):
-        return f"PostID: {self.id} -- {self.title}  Date: {self.date}"
-
-
+        return f"PostID: {self.id} -- {self.title}  Date: {self.date_time}"
