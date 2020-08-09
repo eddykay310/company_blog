@@ -1,4 +1,4 @@
-from flask import render_template,url_for,flash,redirect,Blueprint
+from flask import render_template,url_for,flash,redirect,Blueprint,request
 from flask_login import login_user,current_user,logout_user,login_required
 from blog import db
 from blog.models import User, BlogPost
@@ -37,22 +37,23 @@ def login():
             flash('Log in successful!')
 
             # validating already logged in users to access login pages that require logging in
-            next = request.args.get('next')
-            if next==None or not next[0]=='/':
-                next = url_for('core.index')
-            return redirect(next)
+            next_page = request.args.get('next')
+            if next_page==None or not next_page[0]=='/':
+                next_page = url_for('core.index')
+            return redirect(next_page)
 
     return render_template('login.html',form=form)
 
 # loguout user
 @users.route('/logout')
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('core.index'))
 
 # account/update 
 @users.route('/account',methods=['GET','POST'])
-@login_required()
+@login_required
 def account_update():
     form = UpdateUserForm()
     
@@ -82,6 +83,6 @@ def user_posts(username):
     # request a page -> cycle through posts using pages
     page = request.aregs.get('page',1,type=int)
     user = User.query.filter_by(username=username).first_or_404()
-    blog_posts = BlogPost.query.filter_by(author=user).order_by(BlogPost.date_time.desc()).paginate(page=page,per_page=10)
+    blog_posts = BlogPost.query.filter_by(author=user).order_by(BlogPost.date_time.desc()).paginate(page=page,per_page=5)
 
     return render_template('user_posts',blog_posts=blog_posts,user=user)
