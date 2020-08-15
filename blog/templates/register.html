@@ -1,11 +1,24 @@
 {% extends "base.html" %}
 {% block content %}
     <form method="POST">
-        {{form.hidden_tag()}}
-        {{form.email.label}}{{form.email}} <br>
-        {{form.username.label}}{{form.username}} <br>
-        {{form.password.label}}{{form.password}} <br>
-        {{form.password_confirm.label}}{{form.password_confirm}} <br>
-        {{form.submit()}}
+        <div class="jumbotron">
+            {{form.hidden_tag()}}
+        <div class="form-group">
+            {{form.email.label}}{{form.email}} <br>
+        </div>
+        <div class="form-group">
+            {{form.username.label}}{{form.username}} <br>
+        </div>
+        <div class="form-group">
+            {{form.password.label}}{{form.password}} <br>
+        </div>
+        <div class="form-group">
+            {{form.password_confirm.label}}{{form.password_confirm}} <br>
+        </div>      
+        <div class="form-group">
+            {{form.submit(class='btn btn-primary')}}
+        </div>
+        </div>
+        
     </form>
 {% endblock content %}
